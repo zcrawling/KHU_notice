@@ -7,6 +7,8 @@
 #include <filesystem>
 #include <fstream>
 #import <random>
+#include "../include/mongoose.h"
+
 
 Post::Post(const std::string &url, const std::string &title, const std::string &main,
         const uint64_t date, const uint64_t board_id):
@@ -21,10 +23,54 @@ Database::Database() : boards{} {
         }
         std::string tmp;
         while (std::getline(readFile, tmp)) {
-                //TODO() /db/boards에서 bbs 불러오기 ,boards초기화
                 if (!tmp.empty()) {
                         titles.insert(tmp);
                 } else break;
+        }
+        readFile.close();
+        readFile.open("../db/board/boards.txt");
+        if (!readFile.is_open()) {
+                std::cerr << "error occurred during initialization of DB" << std::endl;
+                exit(101);
+        }
+        uint64_t now = 0;
+        while (std::getline(readFile, tmp)) {
+                if (tmp.empty()) {
+                        break;
+                }
+                if (tmp == "#####") {
+                        now++;
+                }
+                else if (tmp == "$$$$$") {
+                        break;
+                }
+                boards[now].bbs.insert(std::stoull(tmp));
+        }
+        now = 0;
+        while (std::getline(readFile, tmp)) {
+                if (tmp.empty()) {
+                        break;
+                }
+                if (tmp == "#####") {
+                        now++;
+                }
+                else if (tmp == "$$$$$") {
+                        break;
+                }
+                boards[now].name = tmp;
+        }
+        now = 0;
+        while (std::getline(readFile, tmp)) {
+                if (tmp.empty()) {
+                        break;
+                }
+                if (tmp == "#####") {
+                        now++;
+                }
+                else if (tmp == "$$$$$") {
+                        break;
+                }
+                boards[now].url = tmp;
         }
         readFile.close();
 }
@@ -32,7 +78,7 @@ Database::Database() : boards{} {
 void Database::store(Post &post) {
         uint64_t id = hashing(post);
         if (titles.contains(post.title)) {
-                boards[post.board_id].bbs.push(id);
+                boards[post.board_id].bbs.insert(id);
         }
         else {
                 titles.insert(post.title);
@@ -40,31 +86,88 @@ void Database::store(Post &post) {
                 std::filesystem::path p(pwd);
                 std::filesystem::create_directories(p);
                 std::string path = pwd + "/data.txt";
-                if (std::ofstream file(path); file.is_open()) {
-                        file <<(post.url + "\n");
-                        file <<(post.title + "\n");
-                        file <<(std::to_string(post.date) + "\n");
-                        file <<(std::to_string(post.board_id) +"\n");
-                        file <<post.main;
-                        file.close();
+                if (std::ofstream readFile(path); readFile.is_open()) {
+                        readFile <<(post.url + "\n");
+                        readFile <<(post.title + "\n");
+                        readFile <<(std::to_string(post.date) + "\n");
+                        readFile <<(std::to_string(post.board_id) +"\n");
+                        readFile <<post.main;
+                        readFile.close();
                 }
                 // TODO() 이미지 저장은 추후 구현
-
         }
 
 
 }
 
-void Database::serve(Board board, uint64_t range, uint64_t at) {
-        //TODO() 어떻게할지 나중에 판단
-}
-
-serve(Board board, uint64_t range, uint64_t at); {
-
+bool Database::serve(Board board, std::multiset<uint64_t,std::greater<>> &ret,
+        const uint64_t at, const uint64_t range) {
+        //at: 접근을 시작할 위치, range: serve할 게시글의 개수
+        //1. 유효성 확인 -> board.bbs의 원소개수 확인하여 at이 존재하는지 확인
+        //2. 최대 n개 serve
+        if (board.bbs.size() <= at) {
+                return false;
+        }
+        auto pt = board.bbs.begin();
+        for (int i = 0; i < at; ++i) ++pt;
+        if (board.bbs.size() < at + range ) {
+                while (pt != board.bbs.end()) {
+                        ret.insert(*pt);
+                }
+        }
+        else {
+                for (int i = 0; i < range; ++i) {
+                        ret.insert(*pt);
+                        ++pt;
+                }
+        }
+        return true;
 }
 
 void Database::save_before_crash() {
-// TODO() boards.txt, titles업데이트
+        std::ofstream writeFile;
+        writeFile.open("../db/titles.txt");
+        if (!writeFile.is_open()) {
+                std::cerr << "error occurred during saving titles..." << std::endl;
+                exit(102);
+        }
+        for (auto pt = titles.begin(); pt != titles.end(); ++pt) {
+                writeFile <<*pt <<"\n";
+        }
+        writeFile.close();
+        writeFile.open("../db/board/boards.txt");
+        if (!writeFile.is_open()) {
+                std::cerr << "error occurred during saving boards..." << std::endl;
+                exit(103);
+        }
+        for (auto pt = titles.begin(); pt != titles.end(); ++pt) {
+                writeFile << *pt <<"\n";
+        }
+        uint64_t now = 0;
+        for (; now <MAX_BOARD; ++now) {
+                if (!boards[now].bbs.empty()) {
+                        for (auto pt = boards[now].bbs.begin(); pt != boards[now].bbs.end(); ++pt) {
+                                writeFile<< *pt <<"\n";
+                        }
+                }
+                writeFile <<"#####\n";
+        }
+        writeFile <<"$$$$$\n";
+        for (now = 0; now <MAX_BOARD; ++now) {
+                if (boards[now].name.empty()) {
+                        writeFile <<"#####\n";
+                }
+                else writeFile<< boards[now].name <<"\n";
+        }
+        writeFile <<"$$$$$\n";
+        for (now = 0; now <MAX_BOARD; ++now) {
+                if (boards[now].url.empty()) {
+                        writeFile <<"#####\n";
+                }
+                else writeFile<< boards[now].url <<"\n";
+        }
+        writeFile <<"$$$$$\n";
+        writeFile.close();
 }
 std::string Database::convert_time_string(const uint64_t time) {
         std::string ret = "";
@@ -86,6 +189,12 @@ std::string Database::convert_time_string(const uint64_t time) {
         return ret;
 }
 
-uint64_t Database::hashing(Post &post) {
-//TODO() 제목 최대 상위 19자를 %10하여 파일이름으로.
+uint64_t Database::hashing(const Post &post) {
+        // FNV-1a 64bit로 hashing
+        uint64_t hash = 14695981039346656037ULL;
+        for (const char c : post.title) {
+                hash ^= static_cast<uint64_t>(static_cast<unsigned char>(c));
+                hash *= 1099511628211ULL;
+        }
+        return hash;
 }
