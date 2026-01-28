@@ -85,7 +85,7 @@ Database::Database() : boards{} {
 Database::~Database() {
         save_before_crash();
 }
-void Database::store(Post &post) {
+void Database::store(Post post) {
         uint64_t id = hashing(post);
         std::unique_lock db_lock(db_mtx);
         std::unique_lock board_lock(boards[post.board_id].board_mtx);
@@ -104,7 +104,13 @@ void Database::store(Post &post) {
                         readFile <<(post.title + "\n");
                         readFile <<(std::to_string(post.date) + "\n");
                         readFile <<(std::to_string(post.board_id) +"\n");
+                        readFile.close();
+                }
+                path = pwd + "/index.html";
+                if (std::ofstream readFile(path); readFile.is_open()) {
+                        readFile <<"<html><head><meta charset='UTF-8'></head><body>";
                         readFile <<post.main;
+                        readFile <<"</body></html>";
                         readFile.close();
                 }
                 // TODO() 이미지 저장은 추후 구현
@@ -224,51 +230,75 @@ DB_with_Comm::DB_with_Comm() {
         comm_thread.detach();
 }
 
+Post process_received_data(const std::string &msg) {
+        std::string url, title, date, html_content;
+        char delimiter = '|';
+
+        size_t pos1 = msg.find(delimiter);
+        url = msg.substr(0, pos1);
+
+        size_t pos2 = msg.find(delimiter, pos1 + 1);
+        title = msg.substr(pos1 + 1, pos2 - (pos1 + 1));
+
+        size_t pos3 = msg.find(delimiter, pos2 + 1);
+        date = msg.substr(pos2 + 1, pos3 - (pos2 + 1));
+
+        html_content = msg.substr(pos3 + 1);
+
+        // TODO: url<-> board_id로 변환, date파싱 필요
+        // 일단 예시 데이터대로 생성
+        int date_int = 20260122;
+        int board_id = 1;
+
+        Post tmp(url, title, html_content, date_int, board_id);
+        return tmp;
+}
 
 void DB_with_Comm::server() {
         const char* socket_path = "/tmp/cpp_python_socket";
         int server_fd, client_fd;
         struct sockaddr_un address;
-        // 1. 소켓 생성
         server_fd = socket(AF_UNIX, SOCK_STREAM, 0);
         if (server_fd < 0) return;
         unlink(socket_path);
         memset(&address, 0, sizeof(address));
         address.sun_family = AF_UNIX;
         strncpy(address.sun_path, socket_path, sizeof(address.sun_path) - 1);
-        // 2. 바인드 (소켓 주소/경로 설정)
         if (bind(server_fd, (struct sockaddr*)&address, sizeof(address)) < 0) {
                 perror("bind failed");
                 return;
         }
-        // 3. 리슨 (접속 대기 상태로 전환)
         if (listen(server_fd, 5) < 0) {
                 perror("listen failed");
                 return;
         }
         while (true) {
-                // 4. 파이썬의 접속을 수락 (접속할 때까지 여기서 멈춤)
                 client_fd = accept(server_fd, NULL, NULL);
                 if (client_fd < 0) continue;
                 std::cout << "CONNECTED" << std::endl;
-                char buffer[1024];
-                // 5. 연결된 이 소켓(client_fd)을 닫지 않고 계속 통신하는 루프
+                char buffer[65536];
                 while (true) {
-                        memset(buffer, 0, 1024);
-                        int valread = read(client_fd, buffer, 1024);
+                        memset(buffer, 0, sizeof(buffer));
+
+                        // 2. 버퍼 크기만큼만 읽기 (안전)
+                        int valread = read(client_fd, buffer, sizeof(buffer) - 1);
+
                         if (valread <= 0) {
-                                // 파이썬이 소켓을 닫았거나 에러가 난 경우
-                                std::cout << "CONNECTION LOST" << std::endl;
+                                std::cout << "[DISCONNECTED] 연결 종료" << std::endl;
                                 break;
                         }
-                        // --- 데이터 처리 로직 ---
+
+                        // 3. 읽어온 바이트 그대로 string 생성 (인코딩 변환 없이 바이트 복사)
                         std::string msg(buffer, valread);
-                        std::cout << "받은 메시지: " << msg << std::endl;
-                        // 응답 송신 (소켓 유지)
+
+                        // 4. [검증] 그냥 찍지 말고 길이를 먼저 확인!
+                        std::cout << "[SUCCESS] " << valread << " 바이트 수신함." << std::endl;
+
+                        this->store(process_received_data(msg));
+
                         std::string ack = "ACK";
                         send(client_fd, ack.c_str(), ack.length(), 0);
                 }
-                close(client_fd); // 이 세션이 완전히 끝났을 때만 닫음
         }
 }
 

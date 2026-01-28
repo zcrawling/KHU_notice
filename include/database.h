@@ -42,7 +42,7 @@ public:
 
     ~Database();
 
-    void store(Post &post);
+    void store(Post post);
     static bool serve(Board board, std::multiset<uint64_t,std::greater<>> &ret, uint64_t at, uint64_t range);
     void save_before_crash();
     static std::string convert_time_string(uint64_t time);

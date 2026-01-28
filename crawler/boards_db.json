@@ -1,0 +1,240 @@
+{
+    "소융대": [
+        {
+            "title": "소프트웨어융합대학",
+            "url": "https://software.khu.ac.kr/software/user/bbs/BMSR00040/list.do?menuNo=1700014",
+            "last_count": 0,
+            "code": 3,
+            "category": "소융대"
+        },
+        {
+            "title": "소프트웨어융합학과",
+            "url": "http://swcon.khu.ac.kr/wordpress/post/",
+            "last_count": 0,
+            "code": 4,
+            "category": "소융대"
+        },
+        {
+            "title": "컴퓨터공학부",
+            "url": "https://com.khu.ac.kr/ce/user/bbs/BMSR00040/list.do?menuNo=1600045",
+            "last_count": 0,
+            "code": 5,
+            "category": "소융대"
+        }
+    ],
+    "전체": [
+        {
+            "title": "후마니타스",
+            "url": "https://hc.khu.ac.kr/hc_kor/user/bbs/BMSR00040/list.do?menuNo=4300048",
+            "last_count": 0,
+            "code": 1,
+            "category": "공통"
+        },
+        {
+            "title": "전체-일반",
+            "url": "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200316",
+            "last_count": 0,
+            "code": 2,
+            "category": "공통"
+        },
+        {
+            "title": "전체-학사",
+            "url": "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200317",
+            "last_count": 0,
+            "code": 2,
+            "category": "공통"
+        },
+        {
+            "title": "전체-장학",
+            "url": "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200318",
+            "last_count": 0,
+            "code": 2,
+            "category": "공통"
+        },
+        {
+            "title": "전체-근로",
+            "url": "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200361",
+            "last_count": 0,
+            "code": 2,
+            "category": "공통"
+        }
+    ],
+    "장학": [
+        {
+            "title": "응용물리학과-장학",
+            "url": "https://com.khu.ac.kr/physics/user/bbs/BMSR00040/list.do?menuNo=3000055",
+            "last_count": 0,
+            "code": 1,
+            "category": "장학"
+        }
+    ],
+    "대외활동": [
+        {
+            "title": "전자공학과-대외활동",
+            "url": "https://ee.khu.ac.kr/ee/user/bbs/BMSR00040/list.do?menuNo=1900039&boardType=&pageIndex=2&searchCondition=&searchKeyword=&userDisplayCount=10",
+            "last_count": 0,
+            "code": 1,
+            "category": "대외활동"
+        }
+    ],
+    "취업*인턴": [
+        {
+            "title": "국어국문학과-취업",
+            "url": "https://gukmun.khu.ac.kr/gukmun/user/bbs/BMSR00040/list.do?menuNo=16000044&boardType=&pageIndex=1&searchCondition=&searchKeyword=&userDisplayCount=10",
+            "last_count": 0,
+            "code": 1,
+            "category": "취업*인턴"
+        },
+        {
+            "title": "문과대-취업",
+            "url": "https://human.khu.ac.kr/human_kor/user/bbs/BMSR00040/list.do?menuNo=15800035",
+            "last_count": 0,
+            "code": 1,
+            "category": "취업*인턴"
+        },
+        {
+            "title": "일본어학과-취업",
+            "url": "https://japanese.khu.ac.kr/japanese/user/bbs/BMSR00040/list.do?menuNo=2200016",
+            "last_count": 0,
+            "code": 1,
+            "category": "취업*인턴"
+        },
+        {
+            "title": "경영대-취업",
+            "url": "https://kbiz.khu.ac.kr/biz_kor/user/bbs/BMSR00040/list.do?menuNo=14500147",
+            "last_count": 0,
+            "code": 1,
+            "category": "취업*인턴"
+        },
+        {
+            "title": "한국어학과-취업",
+            "url": "https://korean.khu.ac.kr/korean/user/bbs/BMSR00040/list.do?menuNo=4500012&boardType=&pageIndex=1&searchCondition=&searchKeyword=&userDisplayCount=10",
+            "last_count": 0,
+            "code": 1,
+            "category": "취업*인턴"
+        },
+        {
+            "title": "러시아어학과-취업",
+            "url": "https://russia.khu.ac.kr/russia/user/bbs/BMSR00040/list.do?menuNo=2400015",
+            "last_count": 0,
+            "code": 1,
+            "category": "취업*인턴"
+        },
+        {
+            "title": "스페인어학과-취업",
+            "url": "https://spanish.khu.ac.kr/spanish/user/bbs/BMSR00040/list.do?menuNo=2500014",
+            "last_count": 0,
+            "code": 1,
+            "category": "취업*인턴"
+        },
+        {
+            "title": "소프트웨어융합대학-취업",
+            "url": "https://software.khu.ac.kr/software/user/bbs/BMSR00040/list.do?menuNo=1700018",
+            "last_count": 0,
+            "code": 1,
+            "category": "취업*인턴"
+        },
+        {
+            "title": "컴퓨터공학과-취업",
+            "url": "https://com.khu.ac.kr/ce/user/bbs/BMSR00040/list.do?menuNo=1600046",
+            "last_count": 0,
+            "code": 1,
+            "category": "취업*인턴"
+        },
+        {
+            "title": "전자공학과-취업",
+            "url": "https://ee.khu.ac.kr/ee/user/bbs/BMSR00040/list.do?menuNo=1900038",
+            "last_count": 0,
+            "code": 1,
+            "category": "취업*인턴"
+        },
+        {
+            "title": "생체의공학과-취업",
+            "url": "https://com.khu.ac.kr/bme/user/bbs/BMSR00040/list.do?menuNo=1800031",
+            "last_count": 0,
+            "code": 1,
+            "category": "취업*인턴"
+        },
+        {
+            "title": "생명과학대학-취업",
+            "url": "https://cls.khu.ac.kr/cls/user/bbs/BMSR00040/list.do?menuNo=11600042",
+            "last_count": 0,
+            "code": 1,
+            "category": "취업*인턴"
+        },
+        {
+            "title": "유전생명공학과-취업",
+            "url": "https://com.khu.ac.kr/genetech/user/bbs/BMSR00040/list.do?menuNo=11700125",
+            "last_count": 0,
+            "code": 1,
+            "category": "취업*인턴"
+        },
+        {
+            "title": "식품생명공학과-취업",
+            "url": "https://com.khu.ac.kr/fst/user/bbs/BMSR00041/list.do?menuNo=11800060",
+            "last_count": 0,
+            "code": 1,
+            "category": "취업*인턴"
+        }
+    ],
+    "행사및기타": [
+                {
+            "title": "경영대학-행사및기타",
+            "url": "https://kbiz.khu.ac.kr/biz_kor/user/bbs/BMSR00040/list.do?menuNo=14500163&boardType=&pageIndex=1&searchCondition=&searchKeyword=&userDisplayCount=10",
+            "last_count": 0,
+            "code": 1,
+            "category": "행사및기타"
+        }
+    ],
+    "공통": [
+        {
+            "title": "중앙도서관",
+            "url": "https://lib.khu.ac.kr/bbs/list/1",
+            "last_count": 0,
+            "code": 1,
+            "category": "공통"
+        },
+        {
+            "title": "세화원",
+            "url": "https://sewhahall.khu.ac.kr/contents/bbs/bbs_list.html?bbs_cls_cd=005001",
+            "last_count": 0,
+            "code": 1,
+            "category": "공통"
+        },
+        {
+            "title": "행복기숙사",
+            "url": "https://happydorm.khu.ac.kr/60/6010.do",
+            "last_count": 0,
+            "code": 1,
+            "category": "공통"
+        },
+        {
+            "title": "제2기숙사",
+            "url": "https://dorm2.khu.ac.kr/60/6010.do",
+            "last_count": 0,
+            "code": 1,
+            "category": "공통"
+        },
+        {
+            "title": "우정원",
+            "url": "https://wjwdorm.khu.ac.kr/",
+            "last_count": 0,
+            "code": 1,
+            "category": "공통"
+        },
+        {
+            "title": "e캠퍼스",
+            "url": "https://e-campus.khu.ac.kr/boards/5e5dfbe89c5d69188c6af5c4/posts",
+            "last_count": 0,
+            "code": 1,
+            "category": "공통"
+        },
+        {
+            "title": "",
+            "url": "",
+            "last_count": 0,
+            "code": 1,
+            "category": "공통"
+        }
+    ]
+}
