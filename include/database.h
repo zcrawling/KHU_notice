@@ -44,6 +44,8 @@ public:
 
     void store(Post post);
     static bool serve(Board board, std::multiset<uint64_t,std::greater<>> &ret, uint64_t at, uint64_t range);
+    static void serve();
+    static void serve(int post_id);
     void save_before_crash();
     static std::string convert_time_string(uint64_t time);
     static uint64_t hashing(const Post & post);

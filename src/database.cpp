@@ -13,7 +13,6 @@
 #include <thread>
 #include <shared_mutex>
 #include <mutex>
-#include <ctime>
 
 Post::Post(const std::string &url, const std::string &title, const std::string &main,
         const uint64_t date, const uint64_t board_id):
@@ -246,7 +245,6 @@ Post process_received_data(const std::string &msg) {
         html_content = msg.substr(pos3 + 1);
 
         // TODO: url<-> board_id로 변환, date파싱 필요
-        // 일단 예시 데이터대로 생성
         int date_int = 20260122;
         int board_id = 1;
 
@@ -279,8 +277,6 @@ void DB_with_Comm::server() {
                 char buffer[65536];
                 while (true) {
                         memset(buffer, 0, sizeof(buffer));
-
-                        // 2. 버퍼 크기만큼만 읽기 (안전)
                         int valread = read(client_fd, buffer, sizeof(buffer) - 1);
 
                         if (valread <= 0) {
@@ -288,26 +284,14 @@ void DB_with_Comm::server() {
                                 break;
                         }
 
-                        // 3. 읽어온 바이트 그대로 string 생성 (인코딩 변환 없이 바이트 복사)
                         std::string msg(buffer, valread);
-
-                        // 4. [검증] 그냥 찍지 말고 길이를 먼저 확인!
                         std::cout << "[SUCCESS] " << valread << " 바이트 수신함." << std::endl;
-
                         this->store(process_received_data(msg));
-
                         std::string ack = "ACK";
                         send(client_fd, ack.c_str(), ack.length(), 0);
                 }
         }
 }
 
-int main() {
-        std::string my_data = "경희대 공지사항 크롤링 요청: " + std::to_string(12345);
-        DB_with_Comm DB;
-        while (true) {
 
-        }
-        return 0;
-}
 /////////////////

@@ -5,13 +5,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 add_executable(aramTool
-#        src/main.cpp
+        src/main.cpp
         include/database.h
         src/database.cpp
-#        testcase/database_test.cpp
-#        src/crawler.cpp
-#        include/crawler.h
-#        include/crow.h
+        testcase/database_test.cpp
+        include/crawler.h
+        include/crow.h
 )
 
 # include 경로

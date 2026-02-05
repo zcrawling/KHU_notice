@@ -1,18 +1,26 @@
 #include "../include/crow.h"
 #include <unistd.h>
-#include <limits.h>
+#include <database.h>
 
 int main() {
-    // char cwd[PATH_MAX];
-    // if (getcwd(cwd, sizeof(cwd)) != NULL) {
-    //     std::cout << "[SYSTEM] Current Working Directory: " << cwd << std::endl;
-    // }
     crow::SimpleApp app;
-    // app.loglevel(crow::LogLevel::Debug);
-    // crow::mustache::set_base("../templates");
-    CROW_ROUTE(app, "/")([]() {
+    DB_with_Comm DB;
+    CROW_ROUTE(app, "/")
+    ([&]() {
         auto page = crow::mustache::load("index.html");
-        return page.render();
+        crow::mustache::context ctx;
+        ctx["db_content"] = DB.serve();
+        return page.render(ctx);
+    });
+
+    // 2. 경로 (/<int>) GET 요청: int형 인자를 db.serve(int)에 전달
+    CROW_ROUTE(app, "/<int>")
+    ([&](int id) {
+        auto page = crow::mustache::load("post.html");
+        crow::mustache::context ctx;
+        ctx["db_content"] = DB.serve(id);
+        ctx["current_id"] = id;
+        return page.render(ctx);
     });
     app.port(8080).multithreaded().run();
 }
